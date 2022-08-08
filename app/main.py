@@ -7,7 +7,12 @@ api = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
-3#@api.exception_handler(ValueError)
+#@api.exception_handler(ValueError)
 @api.get("/ids/{count}")
 def main(count:int):
     return db.list(count)
+
+
+@api.get("/image/{id}")
+def image(id:int):
+    return db.image(id)
