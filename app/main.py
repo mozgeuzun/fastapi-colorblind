@@ -1,28 +1,26 @@
-from fastapi_signals import signal
-from fastapi import FastAPI,Request,HTTPException
-from .db import db
-from .config import SECRET_KEY
-import jwt
 
+from fastapi import FastAPI,Request
+from .db import db
+import jwt
+SECRET_KEY='123456789'
 api = FastAPI()
 @api.get("/")
 async def root():
     return {"message": "Hello World"}
 
-@api.get("/ids/{count}")
-def main(req:Request,count:int):
+@api.get("/ids/{rnd}")
+def main(req:Request,rnd:int):
     token = req.headers["Authorization"].split()[1]
-    if token is not signal:
-        raise HTTPException(
-            status_code=401,
-            detail="Unauthorized"
-            )
-    else:
-        print(token)
-    s = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-    print(s)
-    return db.list(count)
+    try:
+        s = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        print(s)
+        return db.list(rnd)    
+    except:
+        a="ERROR!!"
+        return a
 
+   
+    
 
 @api.get("/image/{id}")
 def image(id:int):

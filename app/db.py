@@ -16,7 +16,7 @@ class db:
     def list(count:int):
         conn = db.conn()
         mycursor = conn.cursor()
-        sql = "SELECT picture.picture_id,picture.picture_value FROM picture LIMIT "+str(count)
+        sql = "SELECT picture.picture_id,picture.picture_value FROM picture order by RAND() limit "+str(count)
         mycursor.execute(sql)
         myresult = mycursor.fetchall()
         mycursor.close()
