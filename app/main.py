@@ -3,6 +3,7 @@ from .db import db
 import jwt
 SECRET_KEY='123456789'
 api = FastAPI()
+#red-3,green-5,blue-8
 @api.get("/")
 async def root():
     return {"message": "Hello World"}
@@ -21,11 +22,11 @@ def clientValidate(req:Request):
     else:
         raise HTTPException(status_code=400,detail="Authorization not sent")
 
-@api.get("/ids/{rnd}")
-def main(req:Request,rnd:int):
+@api.get("/ids/{rnd}/{types}")
+def main(req:Request,rnd:int, types:str):
     clientInfo = clientValidate(req)
     print(clientInfo) 
-    return db.list(rnd)
+    return db.list(rnd,types)
 
 """"" Additional
 @api.get("/image/{id}")

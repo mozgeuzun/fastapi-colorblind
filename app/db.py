@@ -13,10 +13,23 @@ class db:
              
         )
     @staticmethod
-    def list(count:int):
+    def list(count:int,types:str):
         conn = db.conn()
         mycursor = conn.cursor()
-        sql = "SELECT to_base64(picture.picture_picture),picture.picture_id,picture.picture_value FROM picture order by RAND() limit "+str(count)
+        # red,green,blue
+        # 'red','grean','blue'
+        tt = ""
+        cl = types.split(",")
+        for i in range(len(cl)):
+            if i > 0:
+                tt += ","
+            tt += "'"+cl[i]+"'"
+
+        sql = """SELECT to_base64(p.picture_picture),p.picture_id,p.picture_value , group_concat(t.type_color) as types
+        FROM picture p 
+        inner join type t on t.picture_id = p.picture_id and t.type_color in ({types}) 
+        group by p.picture_picture,p.picture_id,p.picture_value
+        order by RAND() limit {limit}""".format(types=tt,limit=str(count))
         mycursor.execute(sql)
         myresult = mycursor.fetchall()
         mycursor.close()
