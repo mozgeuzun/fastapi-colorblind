@@ -24,9 +24,11 @@ def clientValidate(req:Request):
 @api.get("/ids/{rnd}")
 def main(req:Request,rnd:int):
     clientInfo = clientValidate(req)
-    print(clientInfo)
+    print(clientInfo) 
     return db.list(rnd)
-   
+
+""""" Additional
 @api.get("/image/{id}")
 def image(id:int):
     return db.image(id)
+"""""
