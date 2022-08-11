@@ -1,0 +1,34 @@
+function base64url(source) {
+    encodedSource = CryptoJS.enc.Base64.stringify(source);
+    encodedSource = encodedSource.replace(/=+$/, '');
+    encodedSource = encodedSource.replace(/\+/g, '-');
+    encodedSource = encodedSource.replace(/\//g, '_');
+    return encodedSource;
+}
+function addIAT(request) {
+    var iat = Math.floor(Date.now() / 1000) + 257;
+    data.iat = iat;
+    return data;
+}
+var header = {
+    "typ": "JWT",
+    "alg": "HS256"
+};
+var data = {
+    "fname": "MERYEM",
+    "lname": "UZUN",
+    "email": "email@domain.com",
+    "password": "abc123$"
+};
+data = addIAT(data);
+var secret = '123456789';
+var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+var encodedHeader = base64url(stringifiedHeader);
+var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+var encodedData = base64url(stringifiedData);
+var token = encodedHeader + "." + encodedData;
+var signature = CryptoJS.HmacSHA256(token, secret);
+signature = base64url(signature);
+var signedToken = token + "." + signature;
+postman.setEnvironmentVariable("token", signedToken);
+
