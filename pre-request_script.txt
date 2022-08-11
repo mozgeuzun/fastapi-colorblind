@@ -31,3 +31,4 @@ var signature = CryptoJS.HmacSHA256(token, secret);
 signature = base64url(signature);
 var signedToken = token + "." + signature;
 postman.setEnvironmentVariable("token", signedToken);
+
