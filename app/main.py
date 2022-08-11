@@ -3,7 +3,6 @@ from .db import db
 import jwt
 SECRET_KEY='123456789'
 api = FastAPI()
-#red-3,green-5,blue-8
 @api.get("/")
 async def root():
     return {"message": "Hello World"}
