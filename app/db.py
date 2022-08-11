@@ -14,9 +14,7 @@ class db:
         )
     @staticmethod
     def list(count:int):
-        print("CONN ONCESI 1")
         conn = db.conn()
-        print("2")
         mycursor = conn.cursor()
         sql = "SELECT picture.picture_id,picture.picture_value FROM picture LIMIT "+str(count)
         mycursor.execute(sql)
